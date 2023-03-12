@@ -14,7 +14,7 @@ namespace rollSales
         {
             // prepare consts
             const float price_per_roll = 0.85F;
-            const float cost_per_roll = 0.12F; // needs review
+            const float cost_per_roll = 0.123F; // needs review
 
             // prepare db connection
             const string cs = "Data Source = c:/users/miron/Git/rollSales/rollSales.db; Version = 3;";
