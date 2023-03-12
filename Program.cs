@@ -80,6 +80,8 @@ namespace rollSales
                         string payment = Console.ReadLine();
                         update_cmd.CommandText = $"UPDATE customers SET unpaidrolls = unpaidrolls-{payment} WHERE name = '{customer_name}'";
                         update_cmd.ExecuteNonQuery();
+                        update_cmd.CommandText = $"INSERT INTO logs VALUES ('{DateTime.Now.ToShortDateString()}', '{customer_name}', -{payment});";
+                        update_cmd.ExecuteNonQuery();
                         break;
                     case "w":
                         // manage weekend
@@ -89,6 +91,7 @@ namespace rollSales
                         if (mode == "y"| mode == "")
                         {
                             update_cmd.CommandText = "UPDATE customers SET unpaidrolls = unpaidrolls+stdamount, unpaidcosts = unpaidcosts+stdamount;";
+                        
                         } else if (mode == "n")
                         {
                             Console.WriteLine("Enter desired amount after customer name, or leave free for stdamount!");
@@ -115,6 +118,13 @@ namespace rollSales
                         }
 
                         // update customers values
+                        update_cmd.ExecuteNonQuery();
+                        if (update_cmd.CommandText.Contains("tempamount"))
+                        {
+                            update_cmd.CommandText = $"INSERT INTO logs SELECT '{DateTime.Now.ToShortDateString()}', name, tempamount FROM customers;";
+                        } else {
+                            update_cmd.CommandText = $"INSERT INTO logs SELECT '{DateTime.Now.ToShortDateString()}', name, stdamount FROM customers;";
+                        }
                         update_cmd.ExecuteNonQuery();
 
                         break;
